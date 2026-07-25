@@ -1,0 +1,26 @@
+name: Build Services
+
+on:
+  pull_request:
+    paths:
+      - "services/**"
+  push:
+    branches:
+      - main
+    paths:
+      - "services/**"
+
+jobs:
+  build-platform-api:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build platform-api image
+        run: docker build -t cloudforge-platform-api:ci services/platform-api
+
+  build-inference-service:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build inference-service image
+        run: docker build -t cloudforge-inference-service:ci services/inference-service

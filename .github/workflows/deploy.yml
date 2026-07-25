@@ -1,0 +1,11 @@
+name: Deployment Placeholder
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deployment note
+        run: echo "Add AWS OIDC authentication, ECR push, kubectl apply, or Argo CD sync here."

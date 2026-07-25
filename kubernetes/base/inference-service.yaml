@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inference-service
+  namespace: platform
+  labels:
+    app: inference-service
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: inference-service
+  template:
+    metadata:
+      labels:
+        app: inference-service
+    spec:
+      containers:
+        - name: inference-service
+          image: cloudforge-inference-service:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8001
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8001
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8001
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: inference-service
+  namespace: platform
+spec:
+  selector:
+    app: inference-service
+  ports:
+    - port: 80
+      targetPort: 8001
+  type: ClusterIP
