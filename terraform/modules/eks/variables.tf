@@ -108,7 +108,7 @@ variable "enabled_cluster_log_types" {
 variable "node_instance_types" {
   description = "EC2 instance types used by the EKS managed node group."
   type        = list(string)
-  default     = ["t3.medium"]
+ default = ["c7i-flex.large"]
 
   validation {
     condition     = length(var.node_instance_types) > 0
